@@ -63,7 +63,7 @@ model VerificationToken {
 
 
 model Chat {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  chat_id               String    @id @default(auto()) @map("_id") @db.ObjectId
   chatCreatedBy_id String    @db.ObjectId
   usersIn_chat_id  String[]
   messages         Message[]
@@ -77,7 +77,7 @@ model Message {
   message      String
   sender_id    String
   createdAt    DateTime @default(now())
-  chat         Chat?    @relation(fields: [chatId], references: [id])
+  chat         Chat?    @relation(fields: [chatId], references: [chat_id])
  
 }
 

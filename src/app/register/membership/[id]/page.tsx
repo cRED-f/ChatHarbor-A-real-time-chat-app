@@ -6,7 +6,6 @@ import { db } from "@/db/prisma";
 import { CreditCard } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -50,7 +49,7 @@ export default async function page({
         expiresSubscription: isoExpirationDate,
       },
     });
-    revalidatePath(`memberships/${id}`);
+    revalidatePath(`/memberships/${id}`);
 
     return redirect("/");
   };

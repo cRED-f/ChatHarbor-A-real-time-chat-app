@@ -16,15 +16,11 @@ import Image from "next/image";
 import star from "../../assets/images/star.gif";
 import free from "../../assets/images/free.png";
 import Link from "next/link";
+import { userData } from "@/lib/actions";
+
 interface UserData {
   subscriptions: string;
 }
-
-const userData = async (id: string) => {
-  const res = await fetch(`http://localhost:3000/api/user/${id!}`);
-  const data = await res.json();
-  return data;
-};
 
 export default function UserBox({ session }: { session: Session | null }) {
   const [data, setData] = useState<UserData | null>(null);
