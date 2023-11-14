@@ -17,13 +17,13 @@ export default function Footer() {
           }}
         />
       </div>
-      <h1 className="text-2xl absolute md:text-4xl font-serif ">
+      <h1 className="text-1xl absolute md:text-4xl font-serif ">
         This is a SAAS platform by{" "}
         <a
           href="https://github.com/cRED-f"
           className="text-indigo-600 font-mono cursor-pointer"
         >
-          Md. Fahim Islam
+          Fahim Islam
         </a>
       </h1>{" "}
     </div>
