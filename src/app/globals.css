@@ -51,3 +51,6 @@
 .assp {
   aspect-ratio: 2183/535;
 }
+.overflow-scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

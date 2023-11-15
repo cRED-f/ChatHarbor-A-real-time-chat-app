@@ -10,17 +10,19 @@ import Link from "next/link";
 
 interface createChatId {
   createChatId: {
-    id: string;
+    chat_id: string;
   };
 }
 
 export default function page() {
-  const session = useSession();
+  const { data: session } = useSession();
 
   const [chatData, setChatData] = React.useState<createChatId | null>(null);
 
   const btnHandler = async (id: string) => {
-    await createChatId(id!).then((res) => setChatData(res));
+    try {
+      await createChatId(id!).then((res) => setChatData(res));
+    } catch (e) {}
   };
 
   return (
@@ -28,22 +30,22 @@ export default function page() {
       <div className="h-[80vh] md:h-screen flex items-center gap-3 justify-center">
         <div className="w-[16rem] md:w-[25rem]">
           <Input
-            value={chatData?.createChatId?.id}
+            value={chatData?.createChatId?.chat_id}
             placeholder="Generate a new chat room id ...."
             className="rounded-full dark:bg-gray-300/50 h-[3rem] bg-white shadow-lg"
             readOnly
           />
         </div>
-        {!chatData?.createChatId?.id ? (
+        {!chatData?.createChatId?.chat_id ? (
           <Button
             variant={"destructive"}
-            onClick={() => btnHandler(session?.data?.user?.id!)}
+            onClick={() => btnHandler(session?.user?.id!)}
             className="rounded-full  md:px-11"
           >
             Create
           </Button>
         ) : (
-          <Link href={`/chat/create/${chatData?.createChatId?.id}`}>
+          <Link href={`/chat/create/${chatData?.createChatId?.chat_id}`}>
             <Button className="rounded-full md:px-11">Enter Chat</Button>
           </Link>
         )}

@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 
-
 export async function createChatId(userId: string) {
   try {
     const res = await fetch(
@@ -17,7 +16,6 @@ export async function createChatId(userId: string) {
     );
 
     const data = await res.json();
-
     return data;
   } catch (error) {
     throw error;
