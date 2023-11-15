@@ -24,6 +24,7 @@ export async function createChatId(userId: string) {
 //get the user data
 export async function userData(id: string) {
   const res = await fetch(`${process.env.SERVER_URL}/api/user/${id}`, {
+    cache: "no-cache",
     method: "GET",
     headers: {
       "Content-Type": "application/json",

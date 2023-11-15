@@ -115,7 +115,16 @@ export default function ChatBox({ color }: { color: string }) {
           placeholder="Enter your message"
         />
 
-        <Button className="absolute bg-gradient-to-t  rounded-full  from-indigo-700 to-purple-600 w-[4rem] md:w-[7rem]  top-0 right-0">
+        <Button
+          className={`absolute ${
+            color === "purple"
+              ? "bg-gradient-to-t  from-indigo-700 to-purple-600 "
+              : color === "red"
+              ? "bg-gradient-to-t  from-red-700 to-pink-600 "
+              : color === "orange" &&
+                "bg-gradient-to-t  from-orange-700 to-yellow-600 "
+          }  rounded-full   w-[4rem] md:w-[7rem] text-white  top-0 right-0`}
+        >
           <Twitter />
         </Button>
       </div>

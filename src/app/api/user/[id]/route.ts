@@ -13,6 +13,7 @@ export const GET = async (
       },
       select: {
         expiresSubscription: true,
+        expiryDate: true,
       },
     });
 

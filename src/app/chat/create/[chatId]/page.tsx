@@ -26,16 +26,26 @@ export default function page() {
         {/*upper menu */}
         <div className="w-full   rounded-md h-[4rem] flex justify-center md:justify-between gap-2 items-center ">
           {/* color */}
-          <div className="md:w-[6rem] rounded-md h-[35px] flex justify-center items-center dark:bg-white bg-[#141919]">
+          <div
+            className={`md:w-[6rem] rounded-md h-[35px] flex justify-center items-center ${
+              color === "purple"
+                ? "bg-gradient-to-t  from-indigo-700 to-purple-600 "
+                : color === "red"
+                ? "bg-gradient-to-t  from-red-700 to-pink-600 "
+                : color === "orange"
+                ? "bg-gradient-to-t  from-orange-700 to-yellow-600 "
+                : "bg-gradient-to-t  from-indigo-700 to-purple-600 "
+            }`}
+          >
             <DropdownMenu>
               <DropdownMenuTrigger>
                 {/* color name */}
-                <div className="flex gap-1">
+                <div className="flex gap-1 w-full">
                   {" "}
-                  <h1 className="font-semibold dark:text-black text-white hidden md:block">
+                  <h1 className="font-semibold  text-white hidden md:block">
                     Color
                   </h1>
-                  <ChevronDown className="text-white dark:text-black" />
+                  <ChevronDown className="text-white " />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
