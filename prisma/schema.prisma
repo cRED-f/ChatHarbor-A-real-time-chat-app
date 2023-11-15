@@ -50,6 +50,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   chats         Chat[]
+  messages      Message[]
 }
 model VerificationToken {
   identifier String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -65,6 +66,8 @@ model VerificationToken {
 model Chat {
   chat_id               String    @id @default(auto()) @map("_id") @db.ObjectId
   chatCreatedBy_id String    @db.ObjectId
+  chatCreatedBy_name String  
+  chatCreatedBy_image String
   usersIn_chat_id  String[]
   messages         Message[]
   createdAt        DateTime  @default(now())
@@ -75,9 +78,10 @@ model Message {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   chatId       String   @db.ObjectId
   message      String
-  sender_id    String
+  sender_id    String   @db.ObjectId
   createdAt    DateTime @default(now())
   chat         Chat?    @relation(fields: [chatId], references: [chat_id])
+  sender       User?    @relation(fields: [sender_id], references: [id])
  
 }
 

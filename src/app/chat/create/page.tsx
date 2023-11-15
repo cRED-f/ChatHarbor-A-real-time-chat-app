@@ -42,26 +42,74 @@ export default function page() {
       title: "Please wait...",
       description: "Creating Your chatroom id",
     });
+
     try {
-      await createChatId(id!).then((res) => setChatData(res));
-      toast({
-        title: "Your chatroom id is ready",
-        description: "You can enter the chatroom",
-      });
-    } catch (e) {
+      const res = await createChatId(id!);
+      if (res.error) {
+        toast({
+          variant: "destructive",
+          title: res.error,
+        });
+      } else {
+        setChatData(res);
+        toast({
+          title: "Your chatroom id is ready",
+          description: "You can enter the chatroom",
+        });
+      }
+    } catch (err) {
+      console.error("API Request Error:", err);
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        title: "Failed to create chatroom id",
       });
     }
   };
-
   return (
     <Wrapper>
       {" "}
-      {uData?.subscriptions === "premium" ? (
+      {uData?.subscriptions === undefined ? (
+        //skeleton for loading user data
+        <div className="flex items-center mt-2  justify-center space-x-4">
+          <div className="space-y-2">
+            <Skeleton className="h-[10rem] w-[75rem] bg-gray-800/50 dark:bg-blue-600/50" />
+            <Skeleton className="h-[10rem] w-[75rem] bg-gray-800/50 dark:bg-blue-600/50" />
+          </div>
+        </div>
+      ) : uData?.subscriptions === "free" ? (
+        // warning for free user
+        <div className=" max-w-7xl mx-auto rounded-lg  bg-gradient-to-br from-[#db0700] to-rose-500  dark:bg-gradient-to-br dark:from-[#db0700] dark:to-rose-500 h-[20rem] mt-10 flex-col flex justify-center items-center">
+          <div>
+            <Image src={free} width={50} height={50} alt="free" unoptimized />
+          </div>
+          <div className="flex-col mt-3 flex items-center">
+            <h1 className="text-white font-semibold">Your are a free user</h1>
+            <span className="dark:text-gray-300 text-gray-100">
+              There is limitation of 2 chatrooms for free user
+            </span>
+            <span className="dark:text-gray-300 text-gray-100 break-words text-center">
+              If you want to create more chatroom please upgrade to premium
+            </span>
+            <Button className="mt-6">
+              {" "}
+              <Link
+                href="/register"
+                className="flex gap-1 cursor-pointer hover:text-indigo-600"
+              >
+                {" "}
+                <Image
+                  src={star}
+                  width={20}
+                  height={20}
+                  alt="premium"
+                  unoptimized
+                />
+                <h1>Wanna Pro? click here</h1>
+              </Link>
+            </Button>
+          </div>
+        </div>
+      ) : (
         // warning message for premium user
         <div
           className=" max-w-7xl mx-auto rounded-lg  bg-gradient-to-br from-purple-700 via-pink-600 to-indigo-700 
@@ -88,49 +136,6 @@ export default function page() {
             </Button>
           </div>
         </div>
-      ) : (
-        (
-          // warning for free user
-          <div className=" max-w-7xl mx-auto rounded-lg  bg-gradient-to-br from-[#db0700] to-rose-500  dark:bg-gradient-to-br dark:from-[#db0700] dark:to-rose-500 h-[20rem] mt-10 flex-col flex justify-center items-center">
-            <div>
-              <Image src={free} width={50} height={50} alt="free" unoptimized />
-            </div>
-            <div className="flex-col mt-3 flex items-center">
-              <h1 className="text-white font-semibold">Your are a free user</h1>
-              <span className="dark:text-gray-300 text-gray-100">
-                There is limitation of 2 chatrooms for free user
-              </span>
-              <span className="dark:text-gray-300 text-gray-100 break-words text-center">
-                If you want to create more chatroom please upgrade to premium
-              </span>
-              <Button className="mt-6">
-                {" "}
-                <Link
-                  href="/register"
-                  className="flex gap-1 cursor-pointer hover:text-indigo-600"
-                >
-                  {" "}
-                  <Image
-                    src={star}
-                    width={20}
-                    height={20}
-                    alt="premium"
-                    unoptimized
-                  />
-                  <h1>Wanna Pro? click here</h1>
-                </Link>
-              </Button>
-            </div>
-          </div>
-        ) && (
-          //skeleton for loading user data
-          <div className="flex items-center mt-2  justify-center space-x-4">
-            <div className="space-y-2">
-              <Skeleton className="h-[10rem] w-[75rem] bg-gray-800/50 dark:bg-blue-600/50" />
-              <Skeleton className="h-[10rem] w-[75rem] bg-gray-800/50 dark:bg-blue-600/50" />
-            </div>
-          </div>
-        )
       )}
       {/* chat area for creating new chat room */}
       {uData?.subscriptions === undefined ? (

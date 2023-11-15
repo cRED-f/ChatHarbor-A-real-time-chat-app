@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../../../../db/prisma";
-import { revalidatePath } from "next/cache";
 
 export const POST = async (
   req: Request,
@@ -8,9 +7,37 @@ export const POST = async (
 ) => {
   try {
     const id = params.id;
+
+    const userData = await db.user.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
+    const chatsLength = await db.user.findMany({
+      where: {
+        id: id,
+      },
+      select: {
+        chats: true,
+      },
+    });
+    //check if the user has free subscription and has reached the limit of free chats
+    if (
+      userData?.subscriptions === "free" &&
+      chatsLength[0].chats.length >= 2
+    ) {
+      return NextResponse.json(
+        { error: "You have reached the limit of free chats" },
+        { status: 500 }
+      );
+    }
+
     const createChatId = await db.chat.create({
       data: {
-        chatCreatedBy_id: id,
+        chatCreatedBy_id: userData?.id,
+        chatCreatedBy_name: userData?.name!,
+        chatCreatedBy_image: userData?.image!,
       },
     });
 

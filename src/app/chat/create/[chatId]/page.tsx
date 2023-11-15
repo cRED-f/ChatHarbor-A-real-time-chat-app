@@ -12,14 +12,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import ChatBox from "@/components/chatComp/ChatBox";
 import { useSession } from "next-auth/react";
-export default function page() {
+import { deleteChatRoom } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+
+export default function page({ params }: { params: { chatId: string } }) {
   const { data: session } = useSession();
   const [color, setColor] = useState<string | null>(null);
-
+  const chatId = params.chatId;
   const colors = ["purple", "red", "orange"];
-
+  const router = useRouter();
   return (
     <Wrapper>
       <div className=" max-w-7xl  mx-auto flex flex-col ">
@@ -67,11 +80,54 @@ export default function page() {
               <PlusCircle />
               Add Your Friends
             </Button>
-            <Button className="flex gap-2 bg-[#41ccf6] hover:bg-[#C9ECF7] rounded-lg">
-              <Link />
-              Share Link
-            </Button>
-            <Button variant={"destructive"} className="flex gap-2 rounded-lg ">
+            {/* share link button */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="flex gap-2 bg-[#41ccf6] hover:bg-[#C9ECF7] rounded-lg">
+                  <Link />
+                  Share Link
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Share Link</DialogTitle>
+                  <DialogDescription>
+                    Copy the link below and share it with your friends
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Input
+                      id="name"
+                      defaultValue="Pedro Duarte"
+                      className="col-span-3"
+                      value={`${process.env.NEXT_PUBLIC_SERVER_URL}/chat/create/${chatId}`}
+                      readOnly
+                    />
+                    <Button
+                      className="col-span-1"
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${process.env.NEXT_PUBLIC_SERVER_URL}/chat/create/${chatId}`
+                        );
+                      }}
+                    >
+                      Copy
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* delete chat button */}
+            <Button
+              variant={"destructive"}
+              className="flex gap-2 rounded-lg "
+              onClick={() => {
+                deleteChatRoom(chatId);
+                router.push("/chat");
+              }}
+            >
               <Trash2 />
               Delete Chat
             </Button>
