@@ -67,11 +67,11 @@ model Chat {
   chat_id               String    @id @default(auto()) @map("_id") @db.ObjectId
   chatCreatedBy_id String    @db.ObjectId
   chatCreatedBy_name String  
-  chatCreatedBy_image String
+  chatCreatedBy_image String 
   usersIn_chat_id  String[]
   messages         Message[]
   createdAt        DateTime  @default(now())
-  user   User?    @relation(fields: [chatCreatedBy_id], references: [id])
+  user   User?    @relation(fields: [chatCreatedBy_id], references: [id] ,onDelete: Cascade , onUpdate: Cascade )
 }
 
 model Message {
@@ -80,7 +80,7 @@ model Message {
   message      String
   sender_id    String   @db.ObjectId
   createdAt    DateTime @default(now())
-  chat         Chat?    @relation(fields: [chatId], references: [chat_id])
+  chat         Chat?    @relation(fields: [chatId], references: [chat_id],onDelete: Cascade , onUpdate: Cascade )
   sender       User?    @relation(fields: [sender_id], references: [id])
  
 }

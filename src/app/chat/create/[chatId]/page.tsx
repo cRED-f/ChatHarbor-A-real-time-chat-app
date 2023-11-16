@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Wrapper from "@/components/Wrapper";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Link, PlusCircle, Trash2 } from "lucide-react";
@@ -24,8 +24,16 @@ import {
 import { Input } from "@/components/ui/input";
 import ChatBox from "@/components/chatComp/ChatBox";
 import { useSession } from "next-auth/react";
-import { deleteChatRoom } from "@/lib/actions";
+import { deleteChatRoom, postUserPresence } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import SkeletonActiveChat from "@/components/chatComp/SkeletonActiveChat";
+
+//type for users presence
+type UserData = {
+  id: string;
+  name: string;
+  image: string;
+};
 
 export default function page({ params }: { params: { chatId: string } }) {
   const { data: session } = useSession();
@@ -33,6 +41,23 @@ export default function page({ params }: { params: { chatId: string } }) {
   const chatId = params.chatId;
   const colors = ["purple", "red", "orange"];
   const router = useRouter();
+
+  //users presence in chat
+  const [users, setUsers] = useState<UserData[]>([]);
+
+  //post user presence in chat
+  useEffect(() => {
+    try {
+      if (session?.user?.id) {
+        postUserPresence(chatId!, session?.user?.id!).then((res) => {
+          setUsers(res.userData);
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [chatId, session?.user?.id!]);
+
   return (
     <Wrapper>
       <div className=" max-w-7xl  mx-auto flex flex-col ">
@@ -147,41 +172,49 @@ export default function page({ params }: { params: { chatId: string } }) {
         {/* users chat inside room */}
         <div className="w-full shadow-xl  gap-2 rounded-md h-[3rem] flex justify-start items-center overflow-x-auto">
           {/* admin chat */}
-          <div className="rounded-xl w-fit ml-1  h-[2rem] bg-gray-300/50">
-            <div className="flex gap-1 justify-center items-center">
-              <Image
-                src={session?.user?.image!}
-                width={30}
-                height={20}
-                alt="user image"
-                className="rounded-full"
-              />
-              <h1 className="font-bold mr-1 text-indigo-400 dark:text-indigo-600 animate-pulse">
-                {session?.user?.name?.split(" ")[0]}
-              </h1>
-            </div>
-          </div>{" "}
-          {/* users chat*/}
-          <div className="rounded-xl w-fit ml-1  h-[2rem] bg-gray-300/50">
-            <div className="flex gap-1 justify-center items-center">
-              <Image
-                src={session?.user?.image!}
-                width={30}
-                height={20}
-                alt="user image"
-                className="rounded-full"
-              />
-              <h1 className="font-bold mr-1  ">
-                {session?.user?.name?.split(" ")[0]}
-              </h1>
-            </div>
-          </div>{" "}
+          {users.length ? (
+            <>
+              {" "}
+              {users.map((items) => (
+                <div
+                  className="rounded-xl w-fit ml-1  h-[2rem] bg-gray-300/50"
+                  key={items.id}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <Image
+                      src={items.image}
+                      width={30}
+                      height={20}
+                      alt="user image"
+                      className="rounded-full"
+                    />
+                    <h1
+                      className={`font-bold mr-1  dark:text-indigo-600 ${
+                        items.id === session?.user?.id &&
+                        "animate-pulse text-indigo-400"
+                      }`}
+                    >
+                      {items.id === session?.user?.id
+                        ? "me"
+                        : items.name.split(" ")[0]}
+                    </h1>
+                  </div>
+                </div>
+              ))}{" "}
+            </>
+          ) : (
+            <SkeletonActiveChat />
+          )}
         </div>
 
         {/* chat area for coversations */}
       </div>
       <div className="mt-2">
-        <ChatBox color={color || "purple"} />
+        <ChatBox
+          color={color || "purple"}
+          chatId={chatId}
+          sessionId={session?.user?.id!}
+        />
       </div>
     </Wrapper>
   );
