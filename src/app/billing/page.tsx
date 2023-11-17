@@ -113,7 +113,6 @@ export default async function page() {
                   <h1 className="py-1">CVV</h1>
                   <Input
                     type="number"
-                    placeholder={user?.cvv!}
                     name="cvvNumber"
                     maxLength={3}
                     required
