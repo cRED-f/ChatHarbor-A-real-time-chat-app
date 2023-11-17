@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Project Title
+ChatHarbor: Elevating Real-Time Communication - A SaaS Platform Project
 
-First, run the development server:
+## Acknowledgements
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This is an individual project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo
+![1](https://github.com/cRED-f/ChatHarbor-A-real-time-chat-app/assets/127311493/5863200f-06e8-4ba1-aafb-750f53a9c187)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![3](https://github.com/cRED-f/ChatHarbor-A-real-time-chat-app/assets/127311493/91a5633a-3882-4843-9f7d-7f1bba0d81d7)
 
-## Learn More
+![2](https://github.com/cRED-f/ChatHarbor-A-real-time-chat-app/assets/127311493/7e286c22-5222-4524-8dc9-26c5e427cd77)
 
-To learn more about Next.js, take a look at the following resources:
+![4](https://github.com/cRED-f/ChatHarbor-A-real-time-chat-app/assets/127311493/0b2051a0-eaa4-446c-ab1b-04dc3121597b)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Contributions are always welcome!
 
-## Deploy on Vercel
+See `contributing.md` for ways to get started.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Please adhere to this project's `code of conduct`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Environment Variables
+
+DATABASE_URL=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
+
+SERVER_URL=
+NEXT_PUBLIC_SERVER_URL=
+
+NEXT_PUBLIC_PUSHER_APP_KEY=
+PUSHER_APP_ID=
+PUSHER_SECRET=
+## Technology
+- HTML
+- tailwind
+- Typescript
+- Next.js
+- Prisma
+- NODE.JS
+- MongoDB
+- NextAuth
+- Pusher.js
+- REST APIs
+
