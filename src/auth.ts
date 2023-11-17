@@ -2,9 +2,9 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvier from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/db/prisma";
-
+import { Adapter } from "next-auth/adapters";
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(db),
+  adapter: <Adapter>PrismaAdapter(db),
   providers: [
     GoogleProvier({
       clientId: process.env.GOOGLE_CLIENT_ID!,
