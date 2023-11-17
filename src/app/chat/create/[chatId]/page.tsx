@@ -27,6 +27,7 @@ import { useSession } from "next-auth/react";
 import { deleteChatRoom, postUserPresence } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import SkeletonActiveChat from "@/components/chatComp/SkeletonActiveChat";
+import { pusherClient } from "@/lib/pusher";
 
 //type for users presence
 type UserData = {
@@ -57,6 +58,18 @@ export default function page({ params }: { params: { chatId: string } }) {
       console.log(err);
     }
   }, [chatId, session?.user?.id!]);
+
+  //polling for users presence
+  // useEffect(() => {
+  //   pusherClient.subscribe(chatId!).bind("user-joined", (data: any) => {
+  //     setUsers(data);
+  //     console.log(data);
+  //   });
+  //   return () => {
+  //     pusherClient.unsubscribe(chatId!);
+  //   };
+  // }, []);
+  // console.log(users);
 
   return (
     <Wrapper>
@@ -189,7 +202,7 @@ export default function page({ params }: { params: { chatId: string } }) {
                       className="rounded-full"
                     />
                     <h1
-                      className={`font-bold mr-1  dark:text-indigo-600 ${
+                      className={`font-bold mr-1   dark:text-white ${
                         items.id === session?.user?.id &&
                         "animate-pulse text-indigo-400"
                       }`}

@@ -47,6 +47,7 @@ export const POST = async (
   }
 };
 
+//get chat data
 export const GET = async (
   req: Request,
   { params }: { params: { id: string } }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../../../../db/prisma";
 import { get } from "http";
+import { pusherServer } from "@/lib/pusher";
 
 export const POST = async (
   req: Request,
@@ -34,9 +35,38 @@ export const POST = async (
           usersIn_chat_id: true,
         },
       });
+
       //get the user data if the user is not in the chat
       const userData = await Promise.all(
         updatedChat.usersIn_chat_id.map(async (user) => {
+          // Get the user's current chats
+          const userChats = await db.user.findFirst({
+            where: {
+              id: user,
+            },
+            select: {
+              chats: true,
+            },
+          });
+
+          // Store the previous chat values
+          const previousChats = userChats?.chats;
+
+          // Add the new chat to the user's chats
+          const updatedChats = [...previousChats!, { chat_id: id }];
+
+          // Update the user with the new chat
+          await db.user.update({
+            where: {
+              id: user,
+            },
+            data: {
+              chats: {
+                set: updatedChats.map((chat) => ({ chat_id: chat.chat_id })),
+              },
+            },
+          });
+
           const data = await db.user.findFirst({
             where: {
               id: user,
@@ -47,6 +77,7 @@ export const POST = async (
               image: true,
             },
           });
+
           return {
             id: data?.id,
             name: data?.name,
@@ -54,7 +85,7 @@ export const POST = async (
           };
         })
       );
-
+      pusherServer.trigger(id, "user-joined", "dsa");
       return NextResponse.json({ userData }, { status: 200 });
     } else {
       //get the user data if the user is already in the chat
@@ -86,6 +117,7 @@ export const POST = async (
           };
         })
       );
+      pusherServer.trigger(id, "user-joined", "dasds");
       return NextResponse.json({ userData }, { status: 200 });
     }
   } catch (e) {
