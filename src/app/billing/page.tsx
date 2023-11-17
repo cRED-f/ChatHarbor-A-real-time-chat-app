@@ -102,7 +102,7 @@ export default async function page() {
                 <h1 className="py-1">Card Details</h1>
                 <Input
                   type="number"
-                  placeholder={user?.cardNumber || "0000 0000 0000 0000"}
+                  placeholder={user?.cardNumber!}
                   name="cardNumber"
                   required
                 />
@@ -118,7 +118,7 @@ export default async function page() {
                   <h1 className="py-1">CVV</h1>
                   <Input
                     type="number"
-                    placeholder={user?.cvv || "000"}
+                    placeholder={user?.cvv!}
                     name="cvvNumber"
                     maxLength={3}
                     required
