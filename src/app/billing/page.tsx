@@ -100,12 +100,7 @@ export default async function page() {
               </div>
               <div className="w-full">
                 <h1 className="py-1">Card Details</h1>
-                <Input
-                  type="number"
-                  placeholder={user?.cardNumber!}
-                  name="cardNumber"
-                  required
-                />
+                <Input type="number" name="cardNumber" required />
               </div>
               <div className="flex justify-between w-full">
                 <div className="w-[8rem]">
