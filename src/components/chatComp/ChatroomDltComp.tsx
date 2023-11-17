@@ -25,7 +25,7 @@ export default function ChatroomDltComp({
   //function for deleting chat room
   const chatDlt = (id: string) => {
     setLoadingForDeleteOperation(id);
-    const data = deleteChatRoom(id).then((res) => {
+    const data = deleteChatRoom(id, sessionid).then((res) => {
       setLoadingForDeleteOperation(null);
     });
   };

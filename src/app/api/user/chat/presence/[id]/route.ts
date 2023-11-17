@@ -22,6 +22,18 @@ export const POST = async (
     }
     //if the user is not in the chat
     if (!existingChat.usersIn_chat_id.includes(userId)) {
+      const i = await db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          extraChats: {
+            push: id,
+          },
+        },
+      });
+      console.log(i);
+
       const updatedChat = await db.chat.update({
         where: {
           chat_id: id,
@@ -39,34 +51,6 @@ export const POST = async (
       //get the user data if the user is not in the chat
       const userData = await Promise.all(
         updatedChat.usersIn_chat_id.map(async (user) => {
-          // Get the user's current chats
-          const userChats = await db.user.findFirst({
-            where: {
-              id: user,
-            },
-            select: {
-              chats: true,
-            },
-          });
-
-          // Store the previous chat values
-          const previousChats = userChats?.chats;
-
-          // Add the new chat to the user's chats
-          const updatedChats = [...previousChats!, { chat_id: id }];
-
-          // Update the user with the new chat
-          await db.user.update({
-            where: {
-              id: user,
-            },
-            data: {
-              chats: {
-                set: updatedChats.map((chat) => ({ chat_id: chat.chat_id })),
-              },
-            },
-          });
-
           const data = await db.user.findFirst({
             where: {
               id: user,
@@ -85,7 +69,7 @@ export const POST = async (
           };
         })
       );
-      pusherServer.trigger(id, "user-joined", "dsa");
+      // pusherServer.trigger(id, "user-joined", "dsa");
       return NextResponse.json({ userData }, { status: 200 });
     } else {
       //get the user data if the user is already in the chat
@@ -117,7 +101,7 @@ export const POST = async (
           };
         })
       );
-      pusherServer.trigger(id, "user-joined", "dasds");
+      // pusherServer.trigger(id, "user-joined", "dasds");
       return NextResponse.json({ userData }, { status: 200 });
     }
   } catch (e) {

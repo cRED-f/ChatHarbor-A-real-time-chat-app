@@ -162,7 +162,7 @@ export default function page({ params }: { params: { chatId: string } }) {
               variant={"destructive"}
               className="flex gap-2 rounded-lg "
               onClick={() => {
-                deleteChatRoom(chatId);
+                deleteChatRoom(chatId, session?.user?.id!);
                 router.push("/chat");
               }}
             >
@@ -185,7 +185,7 @@ export default function page({ params }: { params: { chatId: string } }) {
         {/* users chat inside room */}
         <div className="w-full shadow-xl  gap-2 rounded-md h-[3rem] flex justify-start items-center overflow-x-auto">
           {/* admin chat */}
-          {users.length ? (
+          {users?.length ? (
             <>
               {" "}
               {users.map((items) => (
@@ -207,9 +207,7 @@ export default function page({ params }: { params: { chatId: string } }) {
                         "animate-pulse text-indigo-400"
                       }`}
                     >
-                      {items.id === session?.user?.id
-                        ? "me"
-                        : items.name.split(" ")[0]}
+                      {items.id === session?.user?.id ? "me" : items.name}
                     </h1>
                   </div>
                 </div>

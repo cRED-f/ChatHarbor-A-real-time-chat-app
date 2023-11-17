@@ -9,11 +9,36 @@ export const DELETE = async (
 ) => {
   try {
     const id = params.id;
+    const { userId } = await req.json();
+    //delete chat room
+    const chatDataFromUser = await db.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        extraChats: true,
+      },
+    });
+
+    const newExtraChats = chatDataFromUser?.extraChats.filter(
+      (chatId) => chatId !== id
+    );
+
+    await db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        extraChats: newExtraChats,
+      },
+    });
+
     await db.chat.delete({
       where: {
         chat_id: id,
       },
     });
+
     return NextResponse.json({ message: "Success" }, { status: 200 });
   } catch (e) {
     return NextResponse.json({ message: "Error", e }, { status: 500 });

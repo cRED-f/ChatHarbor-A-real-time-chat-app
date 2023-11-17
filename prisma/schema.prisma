@@ -47,6 +47,7 @@ model User {
   cardNumber    Int?
   cvv           Int?
   expiryDate    DateTime?
+  extraChats    String[]
   accounts      Account[]
   sessions      Session[]
   chats         Chat[]

@@ -38,7 +38,7 @@ export async function userData(id: string) {
 }
 
 //chat room delete
-export async function deleteChatRoom(id: string) {
+export async function deleteChatRoom(id: string, userId: string) {
   try {
     const res = await fetch(`${process.env.SERVER_URL}/api/user/chat/${id}`, {
       cache: "no-cache",
@@ -46,6 +46,7 @@ export async function deleteChatRoom(id: string) {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ userId }),
     });
 
     const data = await res.json();

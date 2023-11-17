@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import demo from "../assets/images/homepage/demo.jpg";
+import home from "../assets/images/homepage/home.png";
+import homeDark from "../assets/images/homepage/homeDark.png";
 import { MoveRight } from "lucide-react";
 
 export default async function Home() {
@@ -33,7 +34,7 @@ export default async function Home() {
                 You can speak your native language, it does not matter. <br />
                 <span className="text-indigo-600 dark:text-indigo-500">
                   {" "}
-                  Let AI handle the translation.
+                  Let AI handle Everything for you.
                 </span>
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -54,9 +55,18 @@ export default async function Home() {
               </div>
             </div>
             <div className="mt-16 sm:mt-24">
-              <div className="-m-2 rounded-xl shadow-inner shadow-[#CCEBF5] bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+              <div className="-m-2 rounded-xl shadow-inner shadow-[#CCEBF5] block dark:hidden bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
-                  src={demo}
+                  src={home}
+                  alt="App screenshot"
+                  width={1243}
+                  height={1442}
+                  className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
+                />
+              </div>
+              <div className="-m-2 rounded-xl shadow-inner shadow-[#CCEBF5] hidden dark:block bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                <Image
+                  src={homeDark}
                   alt="App screenshot"
                   width={1243}
                   height={1442}
